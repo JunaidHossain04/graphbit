@@ -70,6 +70,12 @@ pub const VERSION: &str = env!("CARGO_PKG_VERSION");
 /// control logging setup and it's disabled by default for cleaner output.
 /// To enable logging from Python: `graphbit.init(enable_tracing=True, log_level='info')`
 pub fn init() -> GraphBitResult<()> {
+    // Install the ring crypto provider for rustls.
+    // We use rustls-no-provider in reqwest to avoid aws-lc-rs (which requires
+    // cmake and fails on musl targets). Ring is pure Rust/ASM and works everywhere.
+    // Ignore errors — if a provider is already installed, that's fine.
+    let _ = rustls::crypto::ring::default_provider().install_default();
+    
     // Tracing is intentionally NOT initialized here.
     // The Python/JS bindings handle tracing setup, disabled by default.
     // This keeps output clean unless explicitly enabled by the user.

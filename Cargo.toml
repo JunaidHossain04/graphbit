@@ -131,7 +131,8 @@ pythonize = "0.24"
 quick-xml = {version = "0.36", features = ["serialize"]}
 rand = "0.9"
 regex = "1.10"
-reqwest = {version = "0.13", features = ["json", "stream"]}
+reqwest = {version = "0.13", default-features = false, features = ["json", "stream", "rustls-no-provider", "http2", "charset"]}
+rustls = {version = "0.23", default-features = false, features = ["ring", "std", "logging", "tls12"]}
 # HTML parsing
 scraper = "0.20"
 serde = {version = "1.0", features = ["derive"]}
